@@ -1,0 +1,55 @@
+create database store;
+use store;
+create table  countries(
+code int primary key,
+name varchar(20) unique ,
+contient_name varchar(20) not null
+);
+
+create table  users(
+    id int primary key,
+    full_name varchar(20),
+    email varchar(20) unique ,
+    gender char(1) check ( gender='m' or gender='f' ),
+    date_of_birth varchar(15),
+    create_at datetime,
+    country_code int ,
+    foreign key (country_code) references countries(code)
+);
+
+create table  orders(
+    id int primary key ,
+    status varchar(6) check(status='start' or status='finish'),
+    create_at datetime,
+    user_id int ,
+    foreign key (user_id) references users(id)
+);
+
+
+
+create table order_products(
+    quantity int ,
+    order_id int,
+    foreign key (order_id) references orders(id),
+    product_id int ,
+    foreign key (product_id) references  product(id)
+);
+create table  product(
+    id int primary key ,
+    name varchar(10) not null ,
+    price int default 0,
+    status varchar(10) check(status='vaild' or status='expired'),
+    create_at datetime
+);
+
+
+insert into countries values ('1','aa','bb');
+insert into users values ('12','abcs','abc@.com','m','547','12/5/8','1');
+insert into orders values ('456','start','3333/3/3','12');
+insert into product values ('987','short','100','expired','11/2/6');
+insert into order_products values  ('5','456','657');
+
+
+update countries set contient_name='qwert' where code='1';
+
+delete  from  product where id ='987'
